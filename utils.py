@@ -23,6 +23,5 @@ def get_gen(mode="train"):
         gen = datagen.flow_from_directory(
             "data/test",
             target_size=(128, 128),
-            batch_size=128,
-            class_mode="binary")
+            batch_size=128)
         return gen
