@@ -1,20 +1,19 @@
 from keras.applications.inception_v3 import InceptionV3
-from keras.models import Model
+from keras.models import Sequential
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
 from utils import get_gen
 
-nb_epoch = 1
+nb_epoch = 10
 
 base_model = InceptionV3(weights="imagenet", include_top=False)
 
-x = base_model.output
-x = GlobalAveragePooling2D()(x)
-x = Dense(1024, activation="relu")(x)
-predictions = Dense(2, activation="softmax")(x)
-
-model = Model(input=base_model.input, output=predictions)
-model.compile(optimizer="rmsprop", loss="sparse_categorical_crossentropy", metrics=["accuracy", "binary_crossentropy"])
+model = Sequential()
+model.add(base_model)
+model.add(GlobalAveragePooling2D(input_shape=base_model.output_shape[1:]))
+model.add(Dense(1024, activation="relu"))
+model.add(Dense(1, activation="sigmoid"))
+model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 
 train_gen, val_gen = get_gen()
 model.fit_generator(train_gen, nb_epoch=nb_epoch, verbose=1, samples_per_epoch=20000, validation_data=val_gen, nb_val_samples=5000)

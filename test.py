@@ -21,4 +21,4 @@ for i, f in enumerate(os.listdir(test_dir)):
     img = load_img(img_path, target_size=((128,128)))
     imgs[i] = img_to_array(img)
 
-np.savetxt("data/output", model.predict(imgs, batch_size=256))
+np.savetxt("data/output", model.predict_proba(imgs, batch_size=256))
