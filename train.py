@@ -4,7 +4,7 @@ from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
 from utils import get_gen
 
-nb_epoch = 10
+nb_epoch = 20
 
 base_model = InceptionV3(weights="imagenet", include_top=False)
 
