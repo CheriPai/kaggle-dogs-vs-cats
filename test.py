@@ -1,20 +1,25 @@
 import numpy as np
 import os
 import pandas as pd
+import sys
 from keras.models import model_from_json
 from keras.preprocessing.image import load_img, img_to_array
 from utils import get_gen
 
 
+if len(sys.argv) != 2:
+    print("Invalid arguments. Pass the path to the weights.")
+
 test_dir = "data/test"
 num_test = 12500
-img_size = 150
+img_size = 200
+weights_path = sys.argv[1]
 
 
 with open("data/model.json", "r") as json_file:
     json_model = json_file.read()
 model = model_from_json(json_model)
-model.load_weights("data/model.h5")
+model.load_weights(weights_path)
 model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 
 imgs = np.zeros((num_test, img_size, img_size, 3))
@@ -26,5 +31,5 @@ for f in os.listdir(test_dir):
 
 df = pd.DataFrame()
 df["id"] = np.arange(1, num_test+1)
-df["label"] = model.predict(imgs, batch_size=256)
+df["label"] = model.predict(imgs, batch_size=64)
 df.to_csv("data/output", index=False)
