@@ -12,7 +12,7 @@ if len(sys.argv) != 2:
 
 test_dir = "data/test"
 num_test = 12500
-img_size = 200
+img_size = 150
 weights_path = sys.argv[1]
 
 
@@ -31,5 +31,5 @@ for f in os.listdir(test_dir):
 
 df = pd.DataFrame()
 df["id"] = np.arange(1, num_test+1)
-df["label"] = model.predict(imgs, batch_size=64)
+df["label"] = model.predict(imgs, batch_size=128)
 df.to_csv("data/output", index=False)

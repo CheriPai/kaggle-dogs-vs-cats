@@ -1,6 +1,6 @@
 from keras.preprocessing.image import ImageDataGenerator
 
-img_size = 200
+img_size = 150
 
 def get_gen():
     train_datagen = ImageDataGenerator(
@@ -12,11 +12,11 @@ def get_gen():
     train_gen = train_datagen.flow_from_directory(
         "data/train",
         target_size=(img_size, img_size),
-        batch_size=32,
+        batch_size=256,
         class_mode="binary")
     val_gen = test_datagen.flow_from_directory(
         "data/val",
         target_size=(img_size, img_size),
-        batch_size=32,
+        batch_size=256,
         class_mode="binary")
     return train_gen, val_gen
