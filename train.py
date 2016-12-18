@@ -1,6 +1,6 @@
 from keras.applications.inception_v3 import InceptionV3
 from keras.callbacks import ModelCheckpoint
-from keras.layers import Dense, GlobalAveragePooling2D
+from keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from keras.models import Sequential
 from keras.optimizers import RMSprop
 from keras import backend as K
@@ -16,6 +16,7 @@ model = Sequential()
 model.add(base_model)
 model.add(GlobalAveragePooling2D(input_shape=base_model.output_shape[1:]))
 model.add(Dense(1024, activation="relu"))
+model.add(Dropout(0.5))
 model.add(Dense(1, activation="sigmoid"))
 model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 
